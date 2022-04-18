@@ -70,4 +70,46 @@ h1 {
   display: grid;
 }
 
+.cart {
+  border: none;
+  border-radius: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  box-shadow: 1rem 1rem 2rem #333;
+}
+
+.image {
+  height: 50vh;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.info {
+  background-color: #ddd;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  gap: 1rem 3rem;
+  padding: 1rem;
+  display: grid;
+}
+
+.title {
+  color: #222;
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+
+.view {
+  width: 40%;
+  color: #000;
+  background-color: #d2691e;
+  border: none;
+  border-radius: 3rem;
+  align-self: center;
+  margin: 1rem;
+  padding: 1rem 3rem;
+  font-size: 2rem;
+  text-decoration: none;
+}
+
 /*# sourceMappingURL=index.f7626f62.css.map */
