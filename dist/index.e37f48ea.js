@@ -527,8 +527,8 @@ const api = async function() {
     console.log(cinema);
     const body = await cinema.json();
     console.log(body);
-    let html = `<div><img src="${body.Search[0].Poster}" alt=""></div>`;
-    document.querySelector("body").insertAdjacentHTML("afterbegin", html);
+// let html = `<div><img src="https://m.media-amazon.com/images/M/MV5BMTkwOTY0MTc1NV5BMl5BanBnXkFtZTcwMDQwNjA2NQ@@._V1_SX300.jpg" alt=""></div>`;
+// document.querySelector("body").insertAdjacentHTML("afterbegin", html);
 };
 api(); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
