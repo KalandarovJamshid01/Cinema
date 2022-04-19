@@ -514,7 +514,12 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"aenu9":[function(require,module,exports) {
-const container = document.querySelector(".container");
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _searchView = require("./view.js/searchView");
+var _searchViewDefault = parcelHelpers.interopDefault(_searchView);
+var _modelJs = require("./model.js");
+var _resultView = require("./view.js/resultView");
+var _resultViewDefault = parcelHelpers.interopDefault(_resultView);
 const { async  } = require("regenerator-runtime");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -523,16 +528,100 @@ const timeout = function(s) {
         }, s * 1000);
     });
 };
-const getApi = async function() {
-    const cinema = await fetch("https://www.omdbapi.com/?apikey=1fd18c03&s=moon");
+const searchController = async function() {
+    try {
+        const inputValue = _searchViewDefault.default.getValue();
+        console.log(inputValue);
+        await _modelJs.getApi(inputValue);
+        _resultViewDefault.default.render(_modelJs.state.search.result);
+        console.log("result");
+    } catch (error) {}
+};
+const init = function() {
+    _searchViewDefault.default.addHandleEvent(searchController);
+};
+init();
+
+},{"./view.js/searchView":"c3Qay","./model.js":"Y4A21","regenerator-runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./view.js/resultView":"1H0PC"}],"c3Qay":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    #parentElement = document.querySelector(".form");
+    #data;
+    getValue() {
+        const val = document.querySelector(".start").value;
+        return val;
+    }
+    addHandleEvent(handle) {
+        this.#parentElement.addEventListener("submit", function(e) {
+            e.preventDefault();
+            console.log("hello");
+            handle();
+        });
+    }
+}
+exports.default = new SearchView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"Y4A21":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state", ()=>state
+);
+parcelHelpers.export(exports, "getApi", ()=>getApi
+);
+const state = {
+    item: {},
+    search: {
+        result: [],
+        // perPAge: PaginationNum,
+        page: 1
+    }
+};
+const getApi = async function(inputValue) {
+    const cinema = await fetch(`https://www.omdbapi.com/?apikey=1fd18c03&s=${inputValue}`);
     console.log(cinema);
     const data = await cinema.json();
-    console.log(data);
+    state.search.result = data.Search.map(function(val) {
+        return {
+            year: val.Year,
+            img: val.Poster,
+            name: val.Title
+        };
+    });
+    console.log("model");
 };
-getApi(); // https://forkify-api.herokuapp.com/v2
- ///////////////////////////////////////
 
-},{"regenerator-runtime":"dXNgZ"}],"dXNgZ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -1098,6 +1187,42 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}]},["ddCAb","aenu9"], "aenu9", "parcelRequire8e2b")
+},{}],"1H0PC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _searchView = require("./searchView");
+var _searchViewDefault = parcelHelpers.interopDefault(_searchView);
+class ResultView {
+    #parentElement = document.querySelector(".container");
+    #data;
+     #clearHtml() {
+        this.#parentElement.innerHTML = "";
+    }
+    render(data) {
+        this.#data = data;
+        this.#clearHtml();
+        this.#renderHtml();
+        console.log(data);
+    }
+     #renderHtml() {
+        const item = this.#data;
+        console.log(item);
+        for(let i = 0; i < item.length; i++){
+            const html = ` <div class="cart">
+      <img class="image" src="${item[i].img}" alt="" />
+      <div class="info">
+        <p class="title">Name:</p>
+        <p class="title">${item[i].name}</p>
+        <p class="title">Year:</p>
+        <p class="title year">${item[i].year}</p>
+      </div>
+      <a href="#" class="view">Start View</a>`;
+            this.#parentElement.insertAdjacentHTML("beforeEnd", html);
+        }
+    }
+}
+exports.default = new ResultView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./searchView":"c3Qay"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire8e2b")
 
 //# sourceMappingURL=index.e37f48ea.js.map

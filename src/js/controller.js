@@ -1,5 +1,6 @@
-const container = document.querySelector(".container");
-
+import searchView from "./view.js/searchView";
+import * as model from "./model.js";
+import resultView from "./view.js/resultView";
 const { async } = require("regenerator-runtime");
 
 const timeout = function (s) {
@@ -9,14 +10,17 @@ const timeout = function (s) {
     }, s * 1000);
   });
 };
-const getApi = async function () {
-  const cinema = await fetch("https://www.omdbapi.com/?apikey=1fd18c03&s=moon");
-  console.log(cinema);
-  const data = await cinema.json();
-  console.log(data);
+
+const searchController = async function () {
+  try {
+    const inputValue = searchView.getValue();
+    console.log(inputValue);
+    await model.getApi(inputValue);
+    resultView.render(model.state.search.result);
+    console.log("result");
+  } catch (error) {}
 };
-
-getApi();
-// https://forkify-api.herokuapp.com/v2
-
-///////////////////////////////////////
+const init = function () {
+  searchView.addHandleEvent(searchController);
+};
+init();
