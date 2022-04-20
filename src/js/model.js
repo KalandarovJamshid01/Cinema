@@ -1,8 +1,10 @@
+import { API_URL, PAGINATION_NUM } from "./config";
+
 export const state = {
   item: {},
   search: {
     result: [],
-    // perPAge: PaginationNum,
+    perPAge: PAGINATION_NUM,
     page: 1,
   },
 };
@@ -21,4 +23,10 @@ export const getApi = async function (inputValue) {
     };
   });
   console.log("model");
+};
+export const paginationResult = async function (page = 1) {
+  state.search.page = page;
+  const startIn = (page - 1) * state.search.perPage;
+  const lastIn = page * state.search.perPage;
+  return state.search.result.slice(startIn, lastIn);
 };
